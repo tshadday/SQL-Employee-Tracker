@@ -123,11 +123,56 @@ function addDepartment() {
 };
 
 function addRole() {
-
+    console.log("Adding New Role")
+    inquirer
+    .prompt([
+        {
+            type: "input",
+            name: "roleName",
+            message: "What is the name of the new role?"
+        },
+        {
+            type: "input",
+            name: "roleSalary",
+            message: "What is the salary of the new role?"
+        },
+        {
+            type: "input",
+            name: "roleDepartment",
+            message: "What department is the new role in?"
+        }
+    ]).then((data) => {
+        
+    })
 };
 
 function addEmployee() {
-
+    console.log("Adding New Employee")
+    inquirer
+    .prompt([
+        {
+            type: "input",
+            name: "employeeFirst",
+            message: "What is the first name of the new employee?"
+        },
+        {
+            type: "input",
+            name: "employeeLast",
+            message: "What is the last name of the new employee?"
+        },
+        {
+            type: "input",
+            name: "employeeRole",
+            message: "What is the role of the new employee?"
+        },
+        {
+            type: "input",
+            name: "employeeManager",
+            message: "What is the id of the employee's manager ('NULL' for none)?"
+        }
+    ]).then((data) => {
+        
+    })
 };
 
 function updateEmployeeRole() {
