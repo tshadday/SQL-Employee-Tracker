@@ -62,7 +62,13 @@ function start() {
 };
 
 function viewDepartments() {
+    db.query('SELECT * FROM department'),
+    function (err, results) {
+        console.log(results)
+    }
 
+    // return to start menu
+    start();
 };
 
 function viewRoles() {
