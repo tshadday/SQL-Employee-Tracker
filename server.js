@@ -2,6 +2,7 @@ const express = require('express');
 // Import and require mysql2
 const mysql = require('mysql2');
 const inquirer = require("inquirer");
+const cTable = require("console.table");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -41,46 +42,84 @@ function start() {
             ]
         }
     ]).then((data) => {
-        if (data === "View all departments") {
+        if (data.mainQuestion === "View all departments") {
             viewDepartments();
-        } else if (data === "View all roles") {
+        } else if (data.mainQuestion === "View all roles") {
             viewRoles();
-        } else if (data === "View all employees") {
+        } else if (data.mainQuestion === "View all employees") {
             viewEmployees();
-        } else if (data === "Add a department") {
+        } else if (data.mainQuestion === "Add a department") {
             addDepartment();
-        } else if (data === "Add a role") {
+        } else if (data.mainQuestion === "Add a role") {
             addRole();
-        } else if (data === "Add an employee") {
+        } else if (data.mainQuestion === "Add an employee") {
             addEmployee();
-        } else if(data === "Update an employee role") {
+        } else if(data.mainQuestion === "Update an employee role") {
             updateEmployeeRole();
         } else {
-            prompt.ui.close();
+            //Close terminal
         }
     })
 };
 
 function viewDepartments() {
-    db.query('SELECT * FROM department'),
-    function (err, results) {
-        console.log(results)
-    }
+    var selection = 'SELECT * FROM department'
+    db.query(selection, (err, res) => {
+        if (err) {
+            console.log(err);
+        }
+
+        var departmentTable = cTable.getTable(res);
+        console.log(departmentTable);
+    }),
+
 
     // return to start menu
     start();
 };
 
 function viewRoles() {
+    var selection = 'SELECT * FROM roles';
+    db.query(selection, (err, res) => {
+        if (err) {
+            console.log(err);
+        }
 
+        var rolesTable = cTable.getTable(res);
+        console.log(rolesTable);
+    });
+
+    // return to start menu
+    start();
 };
 
 function viewEmployees() {
+    var selection = 'SELECT * FROM employee';
+    db.query(selection, (err, res) => {
+        if (err) {
+            console.log(err);
+        }
 
+        var employeeTable = cTable.getTable(res);
+        console.log(employeeTable);
+    });
+
+    // return to start menu
+    start();
 };
 
 function addDepartment() {
+    console.log("Adding New Department")
+    inquirer
+    .prompt([
+        {
+            type: "input",
+            name: "newDepartment",
+            message: "What is the name of the new department?"
+        }
+    ]).then((data) => {
 
+    })
 };
 
 function addRole() {
