@@ -23,7 +23,6 @@ const db = mysql.createConnection(
 );
 
 function start() {
-    console.log('Employee Manager!')
     inquirer
     .prompt([
         {
@@ -57,7 +56,7 @@ function start() {
         } else if(data.mainQuestion === "Update an employee role") {
             updateEmployeeRole();
         } else {
-            //Close terminal
+            process.exit();
         }
     })
 };
@@ -118,8 +117,15 @@ function addDepartment() {
             message: "What is the name of the new department?"
         }
     ]).then((data) => {
+        var department = data.newDepartment;
+        var command = `INSERT INTO department (department_name) VALUES (${department})`
+        db.query(command, (err, res) => {
+            console.log(`Successfully added department: ${department}`);
+        })
 
-    })
+        // return to start menu
+        start();
+    });
 };
 
 function addRole() {
@@ -142,7 +148,17 @@ function addRole() {
             message: "What department is the new role in?"
         }
     ]).then((data) => {
-        
+        var role = data.roleName;
+        var salary = data.roleSalary;
+        var department = data.roleDepartment;
+        var command = `INSERT INTO roles (title, salary, department_id) VALUES (${role}, ${salary}, ${department})`;
+
+        db.query(command, (err, res) => {
+            console.log(`Successfully added role: ${role}`);
+        });
+
+        // return to start menu
+        start(); 
     })
 };
 
@@ -171,12 +187,26 @@ function addEmployee() {
             message: "What is the id of the employee's manager ('NULL' for none)?"
         }
     ]).then((data) => {
-        
+        var firstName = data.employeeFirst;
+        var lastName = data.employeeLast;
+        var role = data.employeeRole;
+        var manager = data.employeeManager;
+        var command = `INSERT INTO employee (first_name, last_name, roles_id, manager_id) VALUES (${firstName}, ${lastName}, ${role}, ${manager})`;
+            
+        db.query(command, (err, res) => {
+            console.log(`Successfully added employee: ${department}`);
+        });
+
+        // return to start menu
+        start();  
     })
 };
 
 function updateEmployeeRole() {
 
+    
+    // return to start menu
+    start();
 };
 
 start();
@@ -184,4 +214,3 @@ start();
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
-  
